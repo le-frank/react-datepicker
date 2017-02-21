@@ -172,6 +172,18 @@ var Calendar = React.createClass({
     }, () => this.handleMonthChange(this.state.date))
   },
 
+  changeTime (value) {
+    if(value && value.indexOf(':') > 0 && value.indexOf(':') < value.length-1 ) {
+      var time = value.split(':');
+      var hour = parseInt(time[0]);
+      var minute = parseInt(time[1]);
+      this.setState({
+        date: this.state.date.clone().set('hour', hour).set('minute', minute);
+      })
+    }
+  },
+  
+  
   header (date = this.state.date) {
     const startOfWeek = date.clone().startOf('week')
     const dayNames = []
@@ -319,6 +331,7 @@ var Calendar = React.createClass({
         {this.renderNextMonthButton()}
         {this.renderMonths()}
         {this.renderTodayButton()}
+        <input type='text' onChange={this.changeTime} value={this.state.date.format('HH:mm')} />
         {this.props.children}
       </div>
     )
